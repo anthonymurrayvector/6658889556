@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculadora de Horário Antes do Atraso</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+    }
+    #resultado {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h2>Calculadora de edição de cadastro</h2>
+  <label for="hora">Digite o horário registrado no Vector (Histórico de alterações):</label><br>
+  <input type="time" id="hora" required>
+  <button onclick="calcularHorarioOriginal()">Calcular</button>
+
+  <div id="resultado"></div>
+
+  <script>
+    function calcularHorarioOriginal() {
+      const horaInput = document.getElementById("hora").value;
+      if (!horaInput) {
+        document.getElementById("resultado").innerText = "Por favor, insira um horário.";
+        return;
+      }
+
+      const [hora, minuto] = horaInput.split(":").map(Number);
+      const data = new Date();
+      data.setHours(hora);
+      data.setMinutes(minuto);
+      data.setSeconds(0);
+
+      data.setHours(data.getHours() - 3);
+
+      const horaFormatada = data.toTimeString().slice(0, 5);
+      document.getElementById("resultado").innerText = `Horário da editação: ${horaFormatada}`;
+    }
+
+    // Adiciona suporte ao pressionar Enter no campo de input
+    document.getElementById("hora").addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        calcularHorarioOriginal();
+      }
+    });
+  </script>
+</body>
+</html>
